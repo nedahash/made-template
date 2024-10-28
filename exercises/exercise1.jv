@@ -25,9 +25,6 @@ pipeline AirportsPipeline {
   block AirportssCSVInterpreter oftype CSVInterpreter {
     delimiter: ";";
   }
-//    block AirportsCoreDataSelector oftype CellRangeSelector {
-//    select: range A1:E*;
-//  }
 
    block AirportsTableInterpreter oftype TableInterpreter {
    header: true;
