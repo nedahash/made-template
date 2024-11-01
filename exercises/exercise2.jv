@@ -20,7 +20,6 @@ pipeline TreesPipeline {
             "stadtteil" oftype FurthStadt,
             "standort" oftype text,
             "baumart_botanisch" oftype text,
-            // Drop "baumart_deutsch" column
             "baumart_deutsch" oftype text,
             "id" oftype Id,
             "baumfamilie" oftype text
@@ -35,9 +34,7 @@ pipeline TreesPipeline {
     valuetype Id oftype text {
         constraints: [ IdConstraint ];
     }
-    //"id" contains geopoints with the following pattern:
-    //{geo-coordinate 1}, {geo-coordinate 2}
-    //a geo-coordinate is defined as {1-3 numbers}.{numbers}
+    //"id" contains geopoints with the  pattern:
     constraint IdConstraint oftype RegexConstraint {
         regex: /^\d{1,3}\.\d+, \d{1,3}\.\d+$/;
     }
@@ -45,7 +42,7 @@ pipeline TreesPipeline {
     valuetype FurthStadt oftype text {
         constraints: [ FurthStadtConstraint ];
     }
-    //We are only interested in Furth, valid city start with "Furth-"
+    //We are only interested in Vogelsang
     constraint FurthStadtConstraint oftype RegexConstraint {
         regex: /Vogelsang(\s.+)?/;
     }
