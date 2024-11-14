@@ -2,44 +2,44 @@
 
 ## Title
 <!-- Give your project a short title. -->
-The Impact of Weather on Migration Patterns Across U.S. States
+The Impact of Temperature on Real Estate Prices Across U.S. States
 
 ## Main Question
 
 <!-- Think about one main question you want to answer based on the data. -->
- #### Does weather conditions, such as temperature and precipitation, influence migration patterns and state selection among U.S. residents?
+ #### Does the temperature of a state influence real estate prices?
 
 ## Description
 
-This project seeks to understand the influence of weather conditions on migration trends across the United States. With changing climate conditions and varying state climates, weather factors may play a significant role in where people choose to relocate. By analyzing state-to-state migration data alongside climate data, this project will explore whether temperature and precipitation levels correlate with migration patterns and, if so, to what extent. The insights from this study could provide valuable information for state policymakers, urban planners, and businesses seeking to understand migration motivations related to climate. Using Python, this analysis will combine historical migration and climate data to examine potential correlations, trends, and significant predictors in migration patterns.
+This project seeks to understand the influence of temperature on real estate prices across the United States. With changing climate conditions, temperature variations may be a key factor affecting property desirability and values. By analyzing state-level real estate price data alongside temperature data, this project will explore whether higher or lower temperatures correlate with property values and how significant this influence may be. 
 
 
 ## Datasources
 
 <!-- Describe each datasources you plan to use in a section. Use the prefic "DatasourceX" where X is the id of the datasource. -->
 
-## Datasource1: U.S. Census Bureau Migration Data
+## Datasource1: Average Monthly Temperature by US State
 
-* Metadata URL:[U.S. Census Bureau Migration Data](https://www.census.gov/data/tables/time-series/demo/geographic-mobility/state-to-state-migration.html)
+* Metadata URL:[Average Monthly Temperature by US State](https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/mapping/110/tavg/202208/1/value)
 
-* Data URL: Direct Link to Migration Data
-
-* Data Type: CSV
-
-* Description: This dataset includes annual state-to-state migration flows, capturing the movement of people between states. It details both inbound and outbound migration counts, allowing analysis of which states are experiencing population gains or losses. The dataset is under public domain (U.S. government data), permitting unrestricted use.
-
-
-## Datasource2: NOAA Climate Data
-* Metadata URL: [NOAA Climate Data](https://www.ncei.noaa.gov/cdo-web/)
-
-
-* Data URL: Direct Link to Climate Data
-
+* Data URL: https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/mapping/110-tavg-202208-1.csv
 
 * Data Type: CSV
 
+* Description: This dataset includes Average Monthly Temperature by US State.
 
-* Description: NOAA provides historical climate data, including average temperature and precipitation levels for each state. These metrics will enable the study of how climate conditions vary across states and help determine if certain climates attract or repel residents. The data is covered by the Open Data Commons Open Database License (ODbL), allowing for free use with attribution.
+
+## Datasource2: USA Real Estate Dataset
+* Metadata URL: [USA Real Estate Dataset](https://www.kaggle.com/datasets/ahmedshahriarsakib/usa-real-estate-dataset)
+
+
+* Data URL:[ Direct Link to Climate Data](https://www.kaggle.com/datasets/ahmedshahriarsakib/usa-real-estate-dataset)
+
+
+* Data Type: CSV
+
+
+* Description: This dataset contains Real Estate listings in the US broken by State and zip code.
 ## Work Packages
 
 <!-- List of work packages ordered sequentially, each pointing to an issue with more details. -->
