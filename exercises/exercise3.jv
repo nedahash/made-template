@@ -1,0 +1,102 @@
+pipeline EconomicStatsPipeline {
+
+          DataDownloader
+        -> ExcelFileProcessor
+        -> PickTargetSheet
+        -> UpdateHeaders
+        -> SelectRange
+        -> ProcessGDPData
+        -> SaveGDPData;
+
+    SelectRange  
+        -> BondTableProcessor
+        -> BondDataSaver;
+
+    // Step 1: Download the dataset from the specified URL
+    block DataDownloader oftype HttpExtractor {
+        url: "https://thedocs.worldbank.org/en/doc/7d852628d96b9411d43e5d36d5dff941-0050062022/original/Graphs-Chapter-5-02082022.xlsx";
+    }
+
+    // Step 2: Interpret the downloaded Excel file
+    block ExcelFileProcessor oftype XLSXInterpreter {}
+
+    // Step 3: Select the sheet named "Figure S5.1.2" that contains the required data
+    block PickTargetSheet oftype SheetPicker {
+        sheetName: "Figure S5.1.2";
+    }
+
+    // Step 4: Define the range of cells to focus on (P2 to S45) in the selected sheet
+    block SelectRange oftype CellRangeSelector {
+        select: range P2:S45;
+    }
+
+    // Step 5: Rename column headers for clarity and consistency
+    block UpdateHeaders oftype CellWriter {
+        at: range P2:S2;  
+        write: [
+            "Country Code",         // Renames "ISO3" to "Country Code"
+            "Economy",              // "Economy" remains unchanged
+            "GDP per Capita",       // Renames "GDP per capita (US$, thousands)" to "GDP per Capita"
+            "Bond Issuance Share"   // Renames "Share of government sustainable bonds" to "Bond Issuance Share"
+        ];
+    }
+
+    // Step 6: Process GDP-related data, validating and interpreting columns
+    block ProcessGDPData oftype TableInterpreter {
+        header: true;
+        columns: [
+            "Country Code" oftype CountryCodeValidator,   // Ensures valid ISO 3166-1 alpha-3 codes
+            "GDP per Capita" oftype GDPValueValidator    // Ensures values are positive decimals
+        ];
+    }
+
+    // Step 7: Process Bond Issuance Share data with appropriate validation
+    block BondTableProcessor oftype TableInterpreter {
+        header: true;
+        columns: [
+            "Country Code" oftype CountryCodeValidator,    // Ensures valid ISO 3166-1 alpha-3 codes
+            "Bond Issuance Share" oftype BondShareValidator // Ensures values are between 0 and 1
+        ];
+    }
+
+    // Step 8: Save GDP data to the SQLite database in the "gdpPerCapita" table
+    block SaveGDPData oftype SQLiteLoader {
+        table: "gdpPerCapita";
+        file: "./country-stats.sqlite";
+    }
+
+    // Step 9: Save Bond Issuance Share data to the SQLite database in the "bondIssuance" table
+    block BondDataSaver oftype SQLiteLoader {
+        table: "bondIssuance";
+        file: "./country-stats.sqlite";
+    }
+}
+
+// Validation Rules
+// Ensures "Country Code" contains a valid ISO 3166-1 alpha-3 country code
+constraint IsValidCountryCode on CountryCodeValidator:
+    value matches /^[A-Za-z]{3}$/;
+
+// Ensures "GDP per Capita" contains a positive decimal value
+constraint IsPositiveDecimal on GDPValueValidator:
+    value > 0;
+
+// Ensures "Bond Issuance Share" contains a decimal value between 0 and 1 (inclusive)
+constraint IsDecimalWithinRange on BondShareValidator:
+    value >= 0 and value <= 1;
+
+// Validation for Data Columns
+// Validates the "Country Code" column
+valuetype CountryCodeValidator oftype text {
+    constraints: [IsValidCountryCode];
+}
+
+// Validates the "GDP per Capita" column
+valuetype GDPValueValidator oftype decimal {
+    constraints: [IsPositiveDecimal];
+}
+
+// Validates the "Bond Issuance Share" column
+valuetype BondShareValidator oftype decimal {
+    constraints: [IsDecimalWithinRange];
+}
