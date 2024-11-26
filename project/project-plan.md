@@ -1,63 +1,58 @@
-# Project Plan
+# Project Plan: Correlation Between Unemployment and Education Levels
+
+---
 
 ## Title
-<!-- Give your project a short title. -->
-The Impact of Temperature on Real Estate Prices Across U.S. States
+**Correlation Analysis Between poverty Rates and Education Levels in the U.S.**
+
+---
 
 ## Main Question
+**How much does poverty correlate with being uneducated in the states?**
 
-<!-- Think about one main question you want to answer based on the data. -->
- #### Does the temperature of a state influence real estate prices?
-
-## Description
-
-This project seeks to understand the influence of temperature on real estate prices across the United States. With changing climate conditions, temperature variations may be a key factor affecting property desirability and values. By analyzing state-level real estate price data alongside temperature data, this project will explore whether higher or lower temperatures correlate with property values and how significant this influence may be. 
-
+---
 
 ## Datasources
 
-<!-- Describe each datasources you plan to use in a section. Use the prefic "DatasourceX" where X is the id of the datasource. -->
+### Datasource1: Unemployment in America per U.S. State
+- **Metadata URL**: [Kaggle Unemployment Dataset](https://www.kaggle.com/datasets/justin2028/unemployment-in-america-per-us-state)
+- **Description**: Provides state-level unemployment rates in the U.S.
 
-## Datasource1: Average Monthly Temperature by US State
+### Datasource2: Education by state
+- **Metadata URL**: [NIH HDPulse Social Map](https://hdpulse.nimhd.nih.gov/data-portal/social/map?age=081&age_options=age25_1&demo=00006&demo_options=education_3&race=00&race_options=race_7&sex=0&sex_options=sexboth_1&socialtopic=020&socialtopic_options=social_6&statefips=00&statefips_options=area_states)
+- **Description**: Contains state-level education data, including percentages of residents with high school, bachelor's, or advanced degrees.
 
-* Metadata URL:[Average Monthly Temperature by US State](https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/mapping/110/tavg/202208/1/value)
+---
 
-* Data URL: https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/mapping/110-tavg-202208-1.csv
-
-* Data Type: CSV
-
-* Description: This dataset includes Average Monthly Temperature by US State.
-
-
-## Datasource2: USA Real Estate Dataset
-* Metadata URL: [USA Real Estate Dataset](https://www.kaggle.com/datasets/ahmedshahriarsakib/usa-real-estate-dataset)
-
-
-* Data URL:[ Direct Link to Climate Data](https://www.kaggle.com/datasets/ahmedshahriarsakib/usa-real-estate-dataset)
-
-
-* Data Type: CSV
-
-
-* Description: This dataset contains Real Estate listings in the US broken by State and zip code.
 ## Work Packages
 
-<!-- List of work packages ordered sequentially, each pointing to an issue with more details. -->
+1. **Data Acquisition**
+   - Download datasets for unemployment and education levels.
+   - Verify the structure and format of each dataset.
 
-1. Data Acquisition: Download and organize the migration and climate datasets.
+2. **Data Cleaning**
+   - Standardize data formats (e.g., state names/abbreviations).
+   - Handle missing or null values appropriately.
+
+3. **Data Integration**
+   - Merge unemployment and education datasets using state identifiers.
+   - Ensure the final dataset is ready for analysis.
+
+4. **Exploratory Data Analysis (EDA)**
+   - Analyze distributions of unemployment rates and education levels.
+   - Visualize individual variables using histograms or bar plots.
+
+5. **Correlation Analysis**
+   - Compute the correlation coefficient (e.g., Pearson correlation) between unemployment rates and education levels.
+   - Perform a significance test to evaluate the strength of the correlation.
+
+6. **Data Visualization**
+   - Create a scatter plot with a regression line to depict the relationship.
+   - Highlight any significant outliers or patterns.
+
+6. **Report Findings**
+   - Document insights in a Markdown file, including visualizations and interpretations.
+   - Summarize the methodology, results, and key conclusions.
 
 
-2. Data Cleaning and Preparation: Clean and standardize data formats, ensuring consistency between state identifiers and measurement units across datasets.
 
-
-3. Data Merging: Merge migration and climate datasets based on state identifiers to create a unified dataset for analysis.
-
-4. Exploratory Data Analysis: Conduct exploratory analyses on migration trends and weather data across states.
-
-5. Correlation Analysis: Analyze the correlation between climate factors (temperature, precipitation) and migration patterns.
-
-6. Data Visualization: Create visualizations to illustrate relationships between migration patterns and weather conditions.
-
-7. Interpretation of Results: Summarize key findings and interpret the potential impact of climate on migration trends.
-
-8. Report Findings: Compile a report outlining the methodology, analysis, and conclusions, providing insights into how weather influences migration patterns.
