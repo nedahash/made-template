@@ -1,21 +1,21 @@
-# Project Plan: Correlation Between Unemployment and Education Levels
+# Project Plan: Correlation Between Income and Education Levels
 
 ---
 
 ## Title
-**Correlation Analysis Between poverty Rates and Education Levels in the U.S.**
+**Correlation Analysis Between Income Rates and Education Levels in the U.S.**
 
 ---
 
 ## Main Question
-**How much does poverty correlate with being uneducated in the states?**
+**How much does Income correlate with being uneducated per state in USA?**
 
 ---
 
 ## Datasources
 
-### Datasource1: Unemployment in America per U.S. State
-- **Metadata URL**: [Kaggle Unemployment Dataset](https://www.kaggle.com/datasets/justin2028/unemployment-in-america-per-us-state)
+### Datasource1: USA Census Income Data
+- **Metadata URL**: [USA Census Income Data](https://www.kaggle.com/datasets/manishkc06/usa-census-income-data)
 - **Description**: Provides state-level unemployment rates in the U.S.
 
 ### Datasource2: Education by state
@@ -27,30 +27,21 @@
 ## Work Packages
 
 1. **Data Acquisition**
-   - Download datasets for unemployment and education levels.
-   - Verify the structure and format of each dataset.
+   - Download datasets.
 
 2. **Data Cleaning**
    - Standardize data formats (e.g., state names/abbreviations).
    - Handle missing or null values appropriately.
 
 3. **Data Integration**
-   - Merge unemployment and education datasets using state identifiers.
-   - Ensure the final dataset is ready for analysis.
 
-4. **Exploratory Data Analysis (EDA)**
-   - Analyze distributions of unemployment rates and education levels.
-   - Visualize individual variables using histograms or bar plots.
 
-5. **Correlation Analysis**
+4. **Correlation Analysis**
    - Compute the correlation coefficient (e.g., Pearson correlation) between unemployment rates and education levels.
    - Perform a significance test to evaluate the strength of the correlation.
 
-6. **Data Visualization**
-   - Create a scatter plot with a regression line to depict the relationship.
-   - Highlight any significant outliers or patterns.
 
-6. **Report Findings**
+5. **Report Findings**
    - Document insights in a Markdown file, including visualizations and interpretations.
    - Summarize the methodology, results, and key conclusions.
 
