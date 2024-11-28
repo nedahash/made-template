@@ -1,28 +1,26 @@
-# Project Plan: Correlation Between Income and Education Levels
+# Project Plan: Correlation Between co2 emission and covid death level in USA
 
 ---
 
 ## Title
-**Correlation Analysis Between Income Rates and Education Levels in the U.S.**
+**Correlation Analysis Between Between co2 emission and covid death level in USA Per state**
 
 ---
 
 ## Main Question
-**How much does Income correlate with being uneducated per state in USA?**
+**How much does CO2 emission correlate with covid death per state in USA?**
 
 ---
 
 ## Datasources
 
-### Datasource1: Personal Income by State
-- **Metadata URL**: [USA Census Income Data](https://www.bea.gov/data/income-saving/personal-income-by-state)
+### Datasource1: Covid death by State
+- **Metadata URL**: [Covid death by State](https://github.com/nytimes/covid-19-data/blob/master/live/us-states.csv)
 
 
-### Datasource2: Education by state
-- **Metadata URL**: [NIH HDPulse Social Map](https://hdpulse.nimhd.nih.gov/data-portal/social/map?age=081&age_options=age25_1&demo=00006&demo_options=education_3&race=00&race_options=race_7&sex=0&sex_options=sexboth_1&socialtopic=020&socialtopic_options=social_6&statefips=00&statefips_options=area_states)
+### Datasource2: Energy-Related CO2 Emission Data Tables
+- **Metadata URL**: [NIH HDPulse Social Map](https://www.eia.gov/environment/emissions/state/)
 
-
----
 
 ## Work Packages
 1. **Data Acquisition**

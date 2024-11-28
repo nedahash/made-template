@@ -1,58 +1,102 @@
 import os
+import pandas as pd
 import requests
-import zipfile
+import sqlite3
 
-# Set the directory for saving downloaded files
-data_dir = "./data"
-if not os.path.exists(data_dir):
-    os.makedirs(data_dir)
+# Directory setup
+DATA_DIR = "/data"
+os.makedirs(DATA_DIR, exist_ok=True)
 
-# Function to download real estate data from Kaggle (direct download URL)
-def download_real_estate_data():
-    try:
-        # Direct link to Kaggle dataset download (replace with the actual Kaggle dataset URL)
-        kaggle_url = "https://www.kaggle.com/datasets/ahmedshahriarsakib/usa-real-estate-dataset/download"
-        kaggle_zip_path = os.path.join(data_dir, "usa-real-estate-dataset.zip")
+# Data sources
+EIA_URL = "https://www.eia.gov/environment/emissions/state/excel/table1.xlsx"
+EIA_FILE = f"{DATA_DIR}/eia_emissions.xlsx"
+COVID_URL = "https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-states.csv"
+COVID_FILE = f"{DATA_DIR}/covid_cases.csv"
+DB_FILE = f"{DATA_DIR}/combined_data.db"
 
-        # Request the dataset from Kaggle URL
-        response = requests.get(kaggle_url)
-        with open(kaggle_zip_path, 'wb') as file:
+def download_file(url, file_path):
+    """Download a file from the given URL."""
+    response = requests.get(url)
+    if response.status_code == 200:
+        with open(file_path, "wb") as file:
             file.write(response.content)
-        
-        # Extract the zip file once downloaded
-        if os.path.exists(kaggle_zip_path):
-            with zipfile.ZipFile(kaggle_zip_path, 'r') as zip_ref:
-                zip_ref.extractall(data_dir)
-            print(f"Real estate data downloaded and extracted to {data_dir}")
-        else:
-            print("Error: Kaggle dataset download failed or file not found.")
-    
-    except Exception as e:
-        print(f"Error downloading the Kaggle dataset: {e}")
+        print(f"Downloaded: {file_path}")
+    else:
+        raise Exception(f"Failed to download file from {url}")
 
-# Function to download NOAA climate data (direct link)
-def download_noaa_climate_data():
-    noaa_url = "https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/mapping/110/tavg/202208/1/value"
-    noaa_csv_path = os.path.join(data_dir, "noaa_climate_data.csv")
-    
-    try:
-        # Request NOAA data from URL
-        response = requests.get(noaa_url)
-        response.raise_for_status()  # Ensure the request was successful
-        
-        with open(noaa_csv_path, 'wb') as file:
-            file.write(response.content)
-        print(f"NOAA climate data downloaded to {data_dir}")
-    
-    except requests.exceptions.RequestException as e:
-        print(f"Error downloading NOAA data: {e}")
+def process_eia_data(file_path):
+    """Process the EIA emissions data."""
+    # Load the Excel file
+    data = pd.read_excel(file_path, sheet_name=0, skiprows=4)
+    print("EIA Columns:", data.columns)
 
-# Run the pipeline
-def run_pipeline():
+    # Rename columns for consistency
+    data.rename(columns={
+        "State": "state",
+        "Carbon Dioxide (CO2) Emissions (million metric tons)": "co2_emissions"
+    }, inplace=True)
+
+    # Filter out irrelevant rows (e.g., footnotes or total rows)
+    data = data.dropna(subset=["state", "co2_emissions"])
+
+    # Convert data types
+    data["co2_emissions"] = pd.to_numeric(data["co2_emissions"], errors="coerce")
+
+    return data[["state", "co2_emissions"]]
+
+def process_covid_data(file_path):
+    """Process the COVID-19 cases data."""
+    # Load the CSV file
+    data = pd.read_csv(file_path)
+    print("COVID Columns:", data.columns)
+
+    # Select relevant columns
+    data = data[["state", "cases", "deaths"]]
+
+    # Handle missing values
+    data["cases"] = data["cases"].fillna(0).astype(int)
+    data["deaths"] = data["deaths"].fillna(0).astype(int)
+
+    return data
+
+def merge_data(eia_data, covid_data):
+    """Merge EIA emissions data and COVID-19 cases data."""
+    merged = pd.merge(eia_data, covid_data, on="state", how="inner")
+    return merged
+
+def save_to_database(data, db_path, table_name):
+    """Save the merged data to an SQLite database."""
+    conn = sqlite3.connect(db_path)
+    data.to_sql(table_name, conn, if_exists="replace", index=False)
+    conn.close()
+    print(f"Data saved to database: {db_path}, table: {table_name}")
+
+def main():
     print("Starting pipeline...")
-    download_real_estate_data()
-    download_noaa_climate_data()
-    print("Pipeline completed successfully. Data is in the /data directory.")
+
+    # Step 1: Download datasets
+    print("Downloading EIA emissions data...")
+    download_file(EIA_URL, EIA_FILE)
+
+    print("Downloading COVID-19 cases data...")
+    download_file(COVID_URL, COVID_FILE)
+
+    # Step 2: Process datasets
+    print("Processing EIA emissions data...")
+    eia_data = process_eia_data(EIA_FILE)
+
+    print("Processing COVID-19 cases data...")
+    covid_data = process_covid_data(COVID_FILE)
+
+    # Step 3: Merge datasets
+    print("Merging datasets...")
+    merged_data = merge_data(eia_data, covid_data)
+
+    # Step 4: Save merged data to database
+    print("Saving merged data to database...")
+    save_to_database(merged_data, DB_FILE, "eia_covid_data")
+
+    print("Pipeline completed successfully!")
 
 if __name__ == "__main__":
-    run_pipeline()
+    main()
