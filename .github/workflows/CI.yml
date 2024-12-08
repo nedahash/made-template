@@ -17,7 +17,7 @@ jobs:
       # Step 2: Set up any required environment variables or dependencies
       - name: Prepare Environment
         run: |
-          chmod +x tests.sh
+          chmod +x project\tests.sh
           echo "Test script is now executable"
 
       # Step 3: Run the tests
@@ -25,4 +25,4 @@ jobs:
         env:
           API_KEY: ${{ secrets.API_KEY }} # Example secret for sensitive data
           SECRET_KEY: ${{ secrets.SECRET_KEY }} # Another example secret
-        run: ./tests.sh
+        run: project\tests.sh
