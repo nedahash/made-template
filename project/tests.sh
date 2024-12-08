@@ -22,7 +22,7 @@
 echo "Starting automated tests for the pipeline..."
 
 # Run the Python test script
-if python projecr/test.py; then
+if python project/test.py; then
     # If the Python script runs successfully
     echo "All tests passed successfully!"
     exit 0
