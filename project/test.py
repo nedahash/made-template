@@ -7,7 +7,7 @@ DATA_DIR = "./data"
 EIA_FILE = os.path.join(DATA_DIR, "eia_emissions.xlsx")
 COVID_FILE = os.path.join(DATA_DIR, "covid_cases.csv")
 DB_FILE = os.path.join(DATA_DIR, "combined_data.db")
-PIPELINE_SCRIPT = "project/pipeline.py"
+PIPELINE_SCRIPT = "./pipeline.py"
 
 
 def test_pipeline_execution():
