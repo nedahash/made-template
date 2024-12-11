@@ -24,5 +24,7 @@ jobs:
       - name: Install Dependencies
         run: pip install pandas requests openpyxl
 
-      - name: Run tests
-        run: bash ./tests.sh
+      - name: Navigate to the project directory and run tests
+        run: |
+          cd project
+          bash ./tests.sh
