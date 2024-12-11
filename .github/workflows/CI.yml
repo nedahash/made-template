@@ -25,4 +25,4 @@ jobs:
         run: pip install pandas requests openpyxl
 
       - name: Run tests
-        run: bash tests.sh
+        run: bash ./tests.sh
